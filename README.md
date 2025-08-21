@@ -1,67 +1,87 @@
-# 📦 technical-assessments-template-express
+# 📦 Employee management system
 
-Proyecto backend construido con [Express](https://expressjs.com/) y [TypeScript](https://www.typescriptlang.org/). Este proyecto sirve como base para crear APIs robustas, escalables y con tipado estático.
+An educational Employee Management System (EMS) built for learning purposes.
+The goal of this project is to practice backend development with Node.js and frontend development with TypeScript, while simulating a real-world HR management system
 
-## 🚀 Características
+## 🚀 Features
 
-- ⚡️ Express.js para la lógica del servidor
-- 🔒 TypeScript para tipado estático
-- 📁 Arquitectura modularizada por dominio (routes, controllers, services, middlewares)
-- 🔧 Configuración con `dotenv`
-- 🐞 Manejo de errores centralizado
-- ✅ Linter con ESLint y formateo con Prettier
-- 📊 Swagger (OpenAPI) documentación y consumo.
+- ⚡️ **Express.js** for server logic
+- 🔒 **TypeScript** for static typing
+- 📁 **Domain-based modular architecture** (routes, controllers, services, middlewares)
+- 🔧 Configuration with **dotenv**
+- 🐞 Centralized error handling
+- ✅ Linter with **ESLint** and formatting with **Prettier**
+- 📊 **Swagger (OpenAPI)** documentation and consumption
 
-## 📁 Estructura del Proyecto
+
+## 📁 Project Structure
 
 ```
 src/
-├── config/         # Configuración general (ej. dotenv)
-├── database/       # Lógica relacionada con la base de datos(ej. conexión DB, migraciones, seeders, etc)
-├── enums/          # Enumeraciones (ej. rutas, constantes globales)
-├── errors/         # Clases y utilidades para manejo de errores
-├── middlewares/    # Middlewares personalizados (autenticación, logs, etc)
-├── modules/        # Lógica separada por dominio (controllers, services, models)
-├── routes/         # Rutas principales y agrupadas
-├── utils/          # Helpers y utilidades generales
-└── server.ts       # Punto de entrada principal
+├── config/         # General configuration (e.g., dotenv)
+├── database/       # Database logic (connection, migrations, seeders, etc.)
+├── enums/          # Enumerations (e.g., routes, global constants)
+├── errors/         # Error handling classes and utilities
+├── middlewares/    # Custom middlewares (authentication, logs, etc.)
+├── modules/        # Domain-specific logic (controllers, services, models)
+├── routes/         # Main and grouped routes
+├── utils/          # General helpers and utilities
+└── server.ts       # Main entry point
+
 ```
 
 
-## 🛠️ Instalación
+## 🛠️ Installation & Setup
 
+Follow these steps to set up the project locally:
+
+
+1️⃣ Clone the repository
 ```bash
-git clone https://github.com/danieljacquin/technical-assessments-template-express.git
-cd technical-assessments-template-express
+git clone https://github.com/danieljacquin/employee-management-system-backend.git
+cd employee-management-system-backend
+```
+
+2️⃣ Install dependencies
+```bash
 npm install
 ```
 
+3️⃣ Configure environment variables
+Copy the provided example file and adjust values if necessary:
+```bash
+cp .env.example .env
+```
+
+4️⃣ Run database migrations
+```bash
+npm run migration:run
+```
+
+
+5️⃣ Start the development server
+```bash
+npm run dev
+```
 
 
  ## ⚙️ Scripts
 
-| Comando               | Descripción                                     | Ejemplo(opcional)
+| Command               | Description                                     | Example(optional)
 | ----------------      | ----------------------------------------------- | ---------------
-| `npm run dev`         | Inicia el servidor en modo desarrollo           |
-| `npm run build`       | Transpila el código TypeScript                  |
-| `npm start`           | Ejecuta el código compilado                     |
-| `npm run lint`        | Ejecuta ESLint                                  |
-| `npm run lint:fix`    | Ejecuta ESLint y corrige errores automáticamente|
-| `npm run format`      | Formatea el código con Prettier                 |
-| `migration:create`    | Crea una migracion                              | npm run migration:create -- src/database/migrations/create-users-table
-| `migration:run`       | Ejecuta las migraciones                         |
-| `migration:revert`    | Revierte la ultima migracion ejecutada          |
+| `npm run dev`         | Starts the server in development mode           |
+| `npm run build`       | Transpiles TypeScript code                      |
+| `npm start`           | Runs the compiled code                          |
+| `npm run lint`        | Runs ESLint                                     |
+| `npm run lint:fix`    | Runs ESLint and fixes errors automatically      |
+| `npm run format`      | Formats code with Prettier                      |
+| `migration:create`    | Creates a migration                             | npm run migration:create -- src/database/migrations/create-users-table
+| `migration:run`       | Runs migrations                                 |
+| `migration:revert`    | Reverts the last executed migration             |
 
 
-## 🌱 Variables de Entorno
-Crea un archivo .env en la raíz con variables necesarias. Ejemplo básico:
 
-```bash
-PORT=3000
-```
-
-
-## 📦 Dependencias Clave
+## 📦 Key Dependencies
 express
 
 typescript
@@ -75,5 +95,5 @@ cors
 eslint, prettier
 
 
-## ✨ Autor
-Desarrollado por Daniel Jacquin
+## ✨ Author
+Developed by Daniel Jacquin
