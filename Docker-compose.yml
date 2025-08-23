@@ -4,14 +4,15 @@ services:
     build:
       context: .
     ports:
-      - "${PORT}:${PORT}"  # usa la variable del .env
+      - "${PORT}:${PORT}"  # use environment variables from .env file
     volumes:
       - .:/app
       - /app/node_modules
     env_file:
       - .env
     depends_on:
-      - db # asegura que postgres se levante antes
+      - db # unsure that database starts first
+      postgres starts first
 
 
   db:
