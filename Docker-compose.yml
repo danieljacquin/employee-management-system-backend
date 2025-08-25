@@ -12,7 +12,6 @@ services:
       - .env
     depends_on:
       - db # unsure that database starts first
-      postgres starts first
 
 
   db:
