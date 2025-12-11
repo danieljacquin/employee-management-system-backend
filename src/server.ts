@@ -7,6 +7,7 @@ import swaggerUi from 'swagger-ui-express';
 
 import { envs } from './config/envs';
 import Database from './database/connect';
+import errorHandler from './middlewares/error-handler.middleware';
 import AppRoutes from './routes/routes';
 
 const app = express();
@@ -41,6 +42,7 @@ const start = async () => {
   app.use(morgan('tiny'));
 
   app.use(AppRoutes.routes);
+  app.use(errorHandler);
 
   app.listen(envs.port, () => {
     console.log(`server is running on port ${envs.port}`);
