@@ -18,14 +18,15 @@ export function validationMiddleware<T extends object>(
     };
 
     const payload = valueByType[dtoType];
-    const dto = plainToInstance(type, payload);
+    const dto = plainToInstance(type, payload, { enableImplicitConversion: true });
     const errors: ValidationError[] = await validate(dto, { whitelist: true });
 
     if (errors.length > 0) {
       const messages = errors.map((error) => Object.values(error.constraints || {})).flat();
       res.status(400).json({ messages });
     } else {
-      req[dtoType] = dto as any;
+      // ✅ Guardar DTO validado en una propiedad nueva
+      (req as any)[`validated${dtoType[0].toUpperCase()}${dtoType.slice(1)}`] = dto;
       next();
     }
   };
