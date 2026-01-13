@@ -117,7 +117,7 @@ export class EmployeeService {
       if (documentNumberExists) throw AppError.badRequest('Document number is already in use');
     }
 
-    //if any of these properties change,the email is regnererated
+    // if any of these properties change,the email is regenerated
     const firstNameChanged = firstName && firstName !== employee.firstName;
     const lastNameChanged = lastName && lastName !== employee.lastName;
     const employeeCountryChanged = employeeCountry && employeeCountry !== employee.employeeCountry;
