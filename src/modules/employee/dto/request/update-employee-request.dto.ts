@@ -16,19 +16,19 @@ export class UpdateEmployeeRequestDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(20)
-  readonly lastName!: string;
+  readonly lastName?: string;
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
   @MaxLength(20)
-  readonly secondLastName!: string;
+  readonly secondLastName?: string;
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
   @MaxLength(20)
-  readonly firstName!: string;
+  readonly firstName?: string;
 
   @IsOptional()
   @IsString()
@@ -36,20 +36,25 @@ export class UpdateEmployeeRequestDto {
   readonly middleName?: string;
 
   @IsOptional()
+  @IsString()
+  @MaxLength(50)
+  email?: string;
+
+  @IsOptional()
   @IsNotEmpty()
   @IsEnum(EmployeeCountry)
-  readonly employeeCountry!: EmployeeCountry;
+  readonly employeeCountry?: EmployeeCountry;
 
   @IsOptional()
   @IsNotEmpty()
   @IsEnum(DocumentType)
-  readonly documentType!: DocumentType;
+  readonly documentType?: DocumentType;
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
   @MaxLength(20)
-  readonly documentNumber!: string;
+  readonly documentNumber?: string;
 
   @IsOptional()
   @IsNotEmpty()
@@ -59,5 +64,5 @@ export class UpdateEmployeeRequestDto {
   @IsOptional()
   @IsNotEmpty()
   @IsEnum(Department)
-  readonly department!: Department;
+  readonly department?: Department;
 }
