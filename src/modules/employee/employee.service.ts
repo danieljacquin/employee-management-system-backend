@@ -22,9 +22,11 @@ export class EmployeeService {
   }
 
   async create(createEmployeeRequestDto: CreateEmployeeRequestDto): Promise<EmployeeResponse> {
-    const { firstName, lastName, employeeCountry } = createEmployeeRequestDto;
+    const { firstName, lastName, employeeCountry, documentNumber } = createEmployeeRequestDto;
 
-    //if (exists) throw AppError.badRequest('email already exists');
+    const exists = await this.findOneByDocumentNumber(documentNumber);
+
+    if (exists) throw AppError.badRequest('document number alredy exist');
 
     const created = this.employeeRepository.create({
       ...createEmployeeRequestDto,
@@ -39,6 +41,14 @@ export class EmployeeService {
 
   async findOneByEmail(email: string): Promise<Employee | null> {
     const employee = await this.employeeRepository.findOneBy({ email });
+    return employee;
+  }
+
+  async findOneByDocumentNumber(documentNumber: string): Promise<Employee | null> {
+    if (!documentNumber) return null;
+    const employee = await this.employeeRepository.findOneBy({
+      documentNumber,
+    });
     return employee;
   }
 
@@ -75,6 +85,7 @@ export class EmployeeService {
       skip: Math.max(0, (page - 1) * limit),
       take: limit,
       where,
+      order: { id: 'desc' },
     };
 
     const [items, total] = await this.employeeRepository.findAndCount(findOptions);
@@ -97,23 +108,31 @@ export class EmployeeService {
     updateEmployeeRequestDto: UpdateEmployeeRequestDto,
   ): Promise<EmployeeResponse> {
     const { id } = employeeIdRequestDto;
-    const { firstName, lastName, employeeCountry } = updateEmployeeRequestDto;
+    const { firstName, lastName, employeeCountry, documentNumber } = updateEmployeeRequestDto;
     const employee = await this.findOneById(id);
     if (!employee) throw AppError.badRequest(`employee with id ${id} does not exist`);
 
+    if (documentNumber) {
+      const documentNumberExists = await this.findOneByDocumentNumber(documentNumber);
+      if (documentNumberExists) throw AppError.badRequest('Document number is already in use');
+    }
+
+    //if any of these properties change,the email is regnererated
     const firstNameChanged = firstName && firstName !== employee.firstName;
     const lastNameChanged = lastName && lastName !== employee.lastName;
     const employeeCountryChanged = employeeCountry && employeeCountry !== employee.employeeCountry;
 
     const shouldUpdatedEmail = firstNameChanged || lastNameChanged || employeeCountryChanged;
 
-    this.employeeRepository.merge(employee, {
-      ...updateEmployeeRequestDto,
-      email: shouldUpdatedEmail
-        ? await this.emailService.generateUniqueEmail(firstName, lastName, employeeCountry)
-        : employee.email,
-    });
-    const updated = await this.employeeRepository.save(employee);
+    if (shouldUpdatedEmail) {
+      updateEmployeeRequestDto.email = await this.emailService.generateUniqueEmail(
+        firstName || employee.firstName,
+        lastName || employee.lastName,
+        employeeCountry || employee.employeeCountry,
+      );
+    }
+
+    const updated = await this.employeeRepository.update(id, updateEmployeeRequestDto);
     return plainToInstance(EmployeeResponse, updated, {
       excludeExtraneousValues: true,
     });
@@ -123,7 +142,7 @@ export class EmployeeService {
     const { id } = employeeIdRequestDto;
     const employee = await this.findOneById(id);
     if (!employee) throw AppError.badRequest(`employee with ${id} does not exist`);
-    const deleted = await this.employeeRepository.delete(employee);
+    const deleted = await this.employeeRepository.remove(employee);
     return plainToInstance(EmployeeResponse, deleted, {
       excludeExtraneousValues: true,
     });
